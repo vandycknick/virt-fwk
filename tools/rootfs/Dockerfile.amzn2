@@ -1,0 +1,53 @@
+FROM amazonlinux:2
+
+ENV DISTRO=amzn2
+
+RUN yum update -y && \
+    yum install -y \
+        vim \
+        iptables \
+        iproute \
+        iproute2 \
+        kmod \
+        procps-ng \
+        sudo \
+        udev \
+        systemd-sysv \
+        openssh-server \
+        msr-tools \
+        e2fsprogs \
+        tar && \
+    yum clean all && \
+    rm -rf \
+       /var/cache/yum/* \
+       /var/log/* \
+       /tmp/* \
+       /var/tmp/*
+
+RUN mkdir /etc/systemd/system/serial-getty@ttyS0.service.d/
+COPY <<EOF /etc/systemd/system/serial-getty@ttyS0.service.d/autologin.conf
+[Service]
+ExecStart=
+ExecStart=-/sbin/agetty --autologin root -o '-p -- \\u' --keep-baud 115200,38400,9600 %I $TERM
+EOF
+
+RUN rm -f /etc/systemd/system/multi-user.target.wants/systemd-resolved.service && \
+    rm -f /etc/systemd/system/dbus-org.freedesktop.resolve1.service && \
+    rm -f /etc/systemd/system/sysinit.target.wants/systemd-timesyncd.service
+
+# Create the following files, but unset them
+RUN echo "" > /etc/machine-id && mkdir -p /var/lib/dbus/ && echo "" > /var/lib/dbus/machine-id && \
+    echo "amazon-linux" > /etc/hostname
+
+# Configure SSHD
+RUN mkdir -p /var/empty/sshd # sshd needs this for some reason
+
+RUN useradd --create-home --shell /bin/bash --groups wheel --comment "EC2 Default User" ec2-user && \
+    echo "ec2-user:password" | chpasswd
+
+WORKDIR /builder
+
+COPY ./tools .
+
+ENTRYPOINT [ "/builder/rootfs/build.sh" ]
+

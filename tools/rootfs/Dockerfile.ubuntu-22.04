@@ -1,0 +1,51 @@
+FROM ubuntu:22.04
+
+ENV DISTRO=ubuntu-22.04
+
+RUN apt update && \
+    apt install -y \
+        vim \
+        iptables \
+        iproute2 \
+        kmod \
+        procps \
+        sudo \
+        udev \
+        systemd \
+        openssh-server \
+        msr-tools \
+        e2fsprogs \
+        tar && \
+    apt clean && \
+    rm -rf \
+        /var/cache/apt/* \
+        /var/log/* \
+        /tmp/* \
+        /var/tmp/*
+
+RUN mkdir /etc/systemd/system/serial-getty@ttyS0.service.d/
+COPY <<EOF /etc/systemd/system/serial-getty@ttyS0.service.d/autologin.conf
+[Service]
+ExecStart=
+ExecStart=-/sbin/agetty -o '-p -- \\u' --keep-baud 115200,38400,9600 %I $TERM
+EOF
+
+RUN rm -f /etc/systemd/system/multi-user.target.wants/systemd-resolved.service && \
+    rm -f /etc/systemd/system/dbus-org.freedesktop.resolve1.service && \
+    rm -f /etc/systemd/system/sysinit.target.wants/systemd-timesyncd.service
+
+# Create the following files, but unset them
+RUN echo "" > /etc/machine-id && mkdir -p /var/lib/dbus/ && echo "" > /var/lib/dbus/machine-id && \
+    echo "ubuntu" > /etc/hostname
+
+# Configure SSHD
+RUN mkdir -p /var/empty/sshd # sshd needs this for some reason
+
+RUN useradd --create-home --shell /bin/bash --groups sudo --comment "Default Ubuntu User" ubuntu && \
+    echo "ubuntu:password" | chpasswd
+
+WORKDIR /builder
+
+COPY ./tools .
+
+ENTRYPOINT [ "/builder/rootfs/build.sh" ]
