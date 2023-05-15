@@ -1,9 +1,12 @@
 [package]
 name = "virt-fwk"
+description = "A library that exposes a safe set of API's unlocking the capabilities of Apple's Virtualization.framework in rust."
 version = "0.1.0"
 edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+authors = ["Nick Van Dyck"]
+license = "MIT"
+repository = "https://github.com/vandycknick/virt-fwk"
+readme = "../README.md"
 
 [dependencies]
 block2 = "0.2.0-alpha.8"

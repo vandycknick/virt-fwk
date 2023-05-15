@@ -1,8 +1,6 @@
 # virt-fwk - Rust bindings for Apple's [Virtualization Framework](https://developer.apple.com/documentation/virtualization?language=objc)
 
-vz provides the power of the Apple Virtualization.framework in Go. Put here is block quote of overview which is written what is Virtualization.framework from the document.
-
-virt-fwk exposes exposes a safe set of API's unlocking the capabilities of Apple's Virtualization.framework in rust. To explain Virtualization.framework I refer to the following quote directly from Apple's documentation.
+virt-fwk exposes a safe set of API's unlocking the capabilities of Apple's Virtualization.framework in rust. To explain Virtualization.framework I refer to the following quote directly from Apple's documentation.
 
 > The Virtualization framework provides high-level APIs for creating and managing virtual machines (VM) on Apple silicon and Intel-based Mac computers. Use this framework to boot and run macOS or Linux-based operating systems in custom environments that you define. The framework supports the Virtual I/O Device (VIRTIO) specification, which defines standard interfaces for many device types, including network, socket, serial port, storage, entropy, and memory-balloon devices.
 
