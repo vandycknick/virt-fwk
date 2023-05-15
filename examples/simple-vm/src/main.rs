@@ -105,7 +105,8 @@ fn main() -> Result<(), Box<dyn Error>> {
     let memory_balloon = vz::VirtioTraditionalMemoryBalloonDeviceConfiguration::new();
     let entropy_device = vz::VirtioEntropyDeviceConfiguration::new();
 
-    let config = vz::VirtualMachineConfiguration::new(boot_loader, 2, 2 * 1024 * 1024 * 1024);
+    let config =
+        vz::VirtualMachineConfiguration::new(boot_loader, cpu_count.clone(), memory_size.clone());
     let block_devices: Vec<vz::VirtioBlockDeviceConfiguration> = disks
         .iter()
         .map(|disk| {
@@ -126,8 +127,6 @@ fn main() -> Result<(), Box<dyn Error>> {
     );
     network_device.set_mac_address(vz::MACAddress::new_with_random_locally_administered_address());
 
-    config.set_cpu_count(cpu_count.clone());
-    config.set_memory_size(memory_size.clone());
     config.set_entropy_devices(vec![entropy_device]);
     config.set_serial_ports(vec![serial_port]);
     config.set_memory_balloon_devices(vec![memory_balloon]);
