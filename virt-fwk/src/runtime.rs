@@ -27,6 +27,13 @@ pub struct VirtualMachineConfiguration {
     inner: Id<VZVirtualMachineConfiguration, Shared>,
 }
 
+/// The environment attributes and list of devices to use during the configuration of macOS or Linux VMs.
+///
+/// **Support**: macOS 11.0+
+///
+/// Use a VirtualMachineConfiguration object to configure the environment for a macOS or Linux VM.
+/// This configuration object contains information about the VM environment, including the devices that the VM exposes to the guest operating system.
+/// For example, use the configuration object to specify the network interfaces and storage devices that the operating system may access.
 impl VirtualMachineConfiguration {
     pub fn default() -> Self {
         VirtualMachineConfiguration {
@@ -154,10 +161,20 @@ pub struct VirtualMachine {
     pub state_notifications: Receiver<VirtualMachineState>,
 }
 
+/// VirtualMachine represents the entire state of a single virtual machine.
+///
+/// **Support**: macOS 11.0+
+///
+/// A VirtualMachine object emulates a complete hardware machine of the same architecture as the underlying Mac computer.
+/// Use the VM to execute a guest operating system and any other apps you install.
+/// The VM manages the resources that the guest operating system uses, providing access to some hardware resources while emulating others.
+///
+/// Creating a virtual machine using the Virtualization framework requires the app to have the "com.apple.security.virtualization" entitlement.
+/// see: <https://developer.apple.com/documentation/virtualization/vzvirtualmachine?language=objc>
 impl VirtualMachine {
     pub fn new(config: &VirtualMachineConfiguration) -> Self {
         unsafe {
-            let queue = Queue::create("com.vz.fwk.vm.start", QueueAttribute::Serial);
+            let queue = Queue::create("com.virt.fwk.rs", QueueAttribute::Serial);
             let machine = VZVirtualMachine::initWithConfiguration_queue(
                 VZVirtualMachine::alloc(),
                 &config.id(),
@@ -189,14 +206,17 @@ impl VirtualMachine {
         }
     }
 
+    /// Returns a crossbeam receiver channel that can be used to receive updates about the VirtualMachine's state changes.
     pub fn get_state_channel(&self) -> Receiver<VirtualMachineState> {
         self.state_notifications.clone()
     }
 
+    /// Returns a boolean value that indicates whether the system supports virtualization.
     pub fn supported() -> bool {
         unsafe { VZVirtualMachine::isSupported() }
     }
 
+    /// Synchronously starts the VirtualMachine.
     pub fn start(&self) -> Result<(), String> {
         unsafe {
             let (tx, rx) = std::sync::mpsc::channel();
@@ -233,6 +253,7 @@ impl VirtualMachine {
         }
     }
 
+    /// Synchronously stops the VirtualMachine.
     pub fn stop(&self) -> Result<(), String> {
         let (tx, rx) = std::sync::mpsc::channel();
         let dispatch_block = ConcreteBlock::new(move || {
@@ -294,6 +315,7 @@ impl VirtualMachine {
             .exec_sync(move || unsafe { self.machine.canRequestStop() })
     }
 
+    /// Returns the current execution state of the VM.
     pub fn state(&self) -> VirtualMachineState {
         unsafe {
             match self.machine.state() {
@@ -348,6 +370,7 @@ declare_class!(
                 if key == "state" {
                     let vm: &mut VirtualMachine = &mut *(context as *mut VirtualMachine);
                     let _ = vm.state_notifications.try_recv();
+                    // TODO: There's a race here which could potentially cause us to mis updates. And potentially send a particular state change twice.
                     vm.notifier.send(vm.state()).unwrap();
                 }
             }
