@@ -31,3 +31,12 @@ debug:
 .PHONY: simple-vm
 simple-vm: debug
 	@./target/debug/simple-vm --kernel $(shell pwd)/assets/kernel-${KERNEL_VERSION} --initrd $(shell pwd)/assets/initramfs --disk $(shell pwd)/assets/${DISTRO}.img
+
+.PHONY: publish
+publish:
+	cargo publish -p virt-fwk --dry-run
+
+.PHONY: docs
+docs:
+	cargo doc -p virt-fwk
+	@cd ./target/doc && python -m http.server
