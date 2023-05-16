@@ -89,10 +89,7 @@ extern_methods!(
 impl NSURL {
     pub fn file_url_with_path(path: &str, is_directory: bool) -> Id<Self, Shared> {
         let path_nsstring = NSString::from_str(path);
-        unsafe {
-            let url = Self::init_file_url_with_path(Self::alloc(), &path_nsstring, is_directory);
-            url
-        }
+        unsafe { Self::init_file_url_with_path(Self::alloc(), &path_nsstring, is_directory) }
     }
 }
 

@@ -241,15 +241,13 @@ impl VirtualMachine {
 
             let result = rx.recv();
 
-            if let Err(_) = result {
+            if result.is_err() {
                 return Err("TODO: implement better error handling here!".into());
             }
 
-            if let Err(nse) = result.unwrap() {
-                return Err(nse);
-            }
+            result.unwrap()?;
 
-            return Ok(());
+            Ok(())
         }
     }
 
@@ -279,15 +277,13 @@ impl VirtualMachine {
 
         let result = rx.recv();
 
-        if let Err(_) = result {
+        if result.is_err() {
             return Err("TODO: implement better error handling here!".into());
         }
 
-        if let Err(nse) = result.unwrap() {
-            return Err(nse);
-        }
+        result.unwrap()?;
 
-        return Ok(());
+        Ok(())
     }
 
     pub fn can_start(&self) -> bool {

@@ -6,6 +6,9 @@ use crate::sys::foundation::*;
 use crate::sys::virtualization::*;
 
 extern_protocol!(
+    /// # Safety
+    ///
+    /// This delegate should never leak outside this crate.
     pub(crate) unsafe trait VZVirtualMachineDelegate: NSObjectProtocol {
         #[optional]
         #[method(guestDidStopVirtualMachine:)]

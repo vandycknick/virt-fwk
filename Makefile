@@ -32,6 +32,10 @@ debug:
 simple-vm: debug
 	@./target/debug/simple-vm --kernel $(shell pwd)/assets/kernel-${KERNEL_VERSION} --initrd $(shell pwd)/assets/initramfs --disk $(shell pwd)/assets/${DISTRO}.img
 
+.PHONY: check
+check:
+	cargo clippy
+
 .PHONY: publish
 publish:
 	cargo publish -p virt-fwk --dry-run

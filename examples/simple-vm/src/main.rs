@@ -7,7 +7,6 @@ use std::fs::canonicalize;
 use std::io::{stdin, stdout};
 use std::path::PathBuf;
 use std::process;
-use vz;
 
 use crate::termios::{get_terminal_attr, set_raw_mode, set_terminal_attr};
 
@@ -105,8 +104,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let memory_balloon = vz::VirtioTraditionalMemoryBalloonDeviceConfiguration::new();
     let entropy_device = vz::VirtioEntropyDeviceConfiguration::new();
 
-    let config =
-        vz::VirtualMachineConfiguration::new(boot_loader, cpu_count.clone(), memory_size.clone());
+    let config = vz::VirtualMachineConfiguration::new(boot_loader, *cpu_count, *memory_size);
     let block_devices: Vec<vz::VirtioBlockDeviceConfiguration> = disks
         .iter()
         .map(|disk| {
@@ -117,8 +115,8 @@ fn main() -> Result<(), Box<dyn Error>> {
                 .unwrap();
 
             let attachment = vz::DiskImageStorageDeviceAttachment::new(&path, false);
-            let config = vz::VirtioBlockDeviceConfiguration::new(attachment);
-            config
+            
+            vz::VirtioBlockDeviceConfiguration::new(attachment)
         })
         .collect();
 
