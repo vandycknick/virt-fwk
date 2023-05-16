@@ -6,9 +6,13 @@ edition = "2021"
 authors = ["Nick Van Dyck"]
 license = "MIT"
 repository = "https://github.com/vandycknick/virt-fwk"
+documentation = "https://docs.rs/virt-fwk/"
 readme = "../README.md"
 
 [dependencies]
 block2 = "0.2.0-alpha.8"
 crossbeam-channel = "0.5.8"
 objc2 = "0.3.0-beta.5"
+
+[package.metadata.docs.rs]
+default-target = "x86_64-apple-darwin"
