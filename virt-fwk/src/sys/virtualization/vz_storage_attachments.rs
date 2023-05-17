@@ -1,11 +1,35 @@
 #![allow(non_snake_case)]
-use crate::sys::foundation::*;
-use crate::sys::virtualization::VZStorageDeviceAttachment;
 use objc2::ffi::NSInteger;
 use objc2::rc::{Allocated, Id, Shared};
 use objc2::runtime::{NSObject, NSObjectProtocol};
 use objc2::{extern_class, extern_methods, ClassType};
 
+use crate::sys::foundation::*;
+
+// region: VZStorageDeviceAttachment
+extern_class!(
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub struct VZStorageDeviceAttachment;
+
+    unsafe impl ClassType for VZStorageDeviceAttachment {
+        type Super = NSObject;
+    }
+);
+
+unsafe impl NSObjectProtocol for VZStorageDeviceAttachment {}
+
+extern_methods!(
+    unsafe impl VZStorageDeviceAttachment {
+        #[method_id(@__retain_semantics New new)]
+        pub unsafe fn new() -> Id<Self, Shared>;
+
+        #[method_id(@__retain_semantics Init init)]
+        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self, Shared>;
+    }
+);
+// endregion
+
+// region: VZDiskImageStorageDeviceAttachment
 extern_class!(
     #[derive(Debug, PartialEq, Eq, Hash)]
     pub(crate) struct VZDiskImageStorageDeviceAttachment;
@@ -50,3 +74,4 @@ extern_methods!(
         pub unsafe fn synchronizationMode(&self) -> NSInteger;
     }
 );
+// endregion

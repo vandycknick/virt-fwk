@@ -4,8 +4,31 @@ use objc2::runtime::{NSObject, NSObjectProtocol};
 use objc2::{extern_class, extern_methods, ClassType};
 
 use crate::sys::foundation::*;
-use crate::sys::virtualization::*;
 
+// region: VZSerialPortAttachment
+extern_class!(
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub struct VZSerialPortAttachment;
+
+    unsafe impl ClassType for VZSerialPortAttachment {
+        type Super = NSObject;
+    }
+);
+
+unsafe impl NSObjectProtocol for VZSerialPortAttachment {}
+
+extern_methods!(
+    unsafe impl VZSerialPortAttachment {
+        #[method_id(@__retain_semantics New new)]
+        pub unsafe fn new() -> Id<Self, Shared>;
+
+        #[method_id(@__retain_semantics Init init)]
+        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self, Shared>;
+    }
+);
+// endregion
+
+// region: VZFileHandleSerialPortAttachment
 extern_class!(
     #[derive(Debug, PartialEq, Eq, Hash)]
     pub struct VZFileHandleSerialPortAttachment;
@@ -40,3 +63,4 @@ extern_methods!(
         pub unsafe fn fileHandleForWriting(&self) -> Option<Id<NSFileHandle, Shared>>;
     }
 );
+// endregion

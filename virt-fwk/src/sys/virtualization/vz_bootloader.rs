@@ -7,6 +7,30 @@ use crate::sys::foundation::*;
 use crate::sys::virtualization::*;
 
 extern_class!(
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub struct VZBootLoader;
+
+    unsafe impl ClassType for VZBootLoader {
+        type Super = NSObject;
+    }
+);
+
+#[cfg(feature = "not_implemented_yet")]
+unsafe impl NSCopying for VZBootLoader {}
+
+unsafe impl NSObjectProtocol for VZBootLoader {}
+
+extern_methods!(
+    unsafe impl VZBootLoader {
+        #[method_id(@__retain_semantics New new)]
+        pub unsafe fn new() -> Id<Self, Shared>;
+
+        #[method_id(@__retain_semantics Init init)]
+        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self, Shared>;
+    }
+);
+
+extern_class!(
     #[derive(PartialEq, Eq, Hash)]
     pub struct VZLinuxBootLoader;
 

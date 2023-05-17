@@ -1,30 +1,33 @@
 #[link(name = "Virtualization", kind = "framework")]
 extern "C" {}
 
-#[path = "virtualization/mod.rs"]
-mod virtualization;
+// #[path = "virtualization/mod.rs"]
+// mod virtualization;
 
-pub(crate) use self::virtualization::VZBootLoader::*;
-pub(crate) use self::virtualization::VZBridgedNetworkInterface::*;
-pub(crate) use self::virtualization::VZDiskImageStorageDeviceAttachment::*;
-pub(crate) use self::virtualization::VZEntropyDeviceConfiguration::*;
-pub(crate) use self::virtualization::VZFileHandleSerialPortAttachment::*;
-pub(crate) use self::virtualization::VZLinuxBootLoader::*;
-pub(crate) use self::virtualization::VZMACAddress::*;
-pub(crate) use self::virtualization::VZMemoryBalloonDeviceConfiguration::*;
-pub(crate) use self::virtualization::VZNATNetworkDeviceAttachment::*;
-pub(crate) use self::virtualization::VZNetworkDevice::*;
-pub(crate) use self::virtualization::VZNetworkDeviceAttachment::*;
-pub(crate) use self::virtualization::VZNetworkDeviceConfiguration::*;
-pub(crate) use self::virtualization::VZSerialPortAttachment::*;
-pub(crate) use self::virtualization::VZSerialPortConfiguration::*;
-pub(crate) use self::virtualization::VZStorageDeviceAttachment::*;
-pub(crate) use self::virtualization::VZStorageDeviceConfiguration::*;
-pub(crate) use self::virtualization::VZVirtioBlockDeviceConfiguration::*;
-pub(crate) use self::virtualization::VZVirtioConsoleDeviceSerialPortConfiguration::*;
-pub(crate) use self::virtualization::VZVirtioEntropyDeviceConfiguration::*;
-pub(crate) use self::virtualization::VZVirtioNetworkDeviceConfiguration::*;
-pub(crate) use self::virtualization::VZVirtioTraditionalMemoryBalloonDeviceConfiguration::*;
-pub(crate) use self::virtualization::VZVirtualMachine::*;
-pub(crate) use self::virtualization::VZVirtualMachineConfiguration::*;
-pub(crate) use self::virtualization::VZVirtualMachineDelegate::*;
+mod vz_bootloader;
+mod vz_configuration;
+mod vz_memory_configuration;
+mod vz_memory_devices;
+mod vz_network_attachments;
+mod vz_network_configuration;
+mod vz_network_device;
+mod vz_randomization_configurations;
+mod vz_runtime;
+mod vz_serialports_attachments;
+mod vz_serialports_configurations;
+mod vz_storage_attachments;
+mod vz_storage_configurations;
+
+pub(crate) use self::vz_bootloader::*;
+pub(crate) use self::vz_configuration::*;
+pub(crate) use self::vz_memory_configuration::*;
+pub(crate) use self::vz_memory_devices::*;
+pub(crate) use self::vz_network_attachments::*;
+pub(crate) use self::vz_network_configuration::*;
+pub(crate) use self::vz_network_device::*;
+pub(crate) use self::vz_randomization_configurations::*;
+pub(crate) use self::vz_runtime::*;
+pub(crate) use self::vz_serialports_attachments::*;
+pub(crate) use self::vz_serialports_configurations::*;
+pub(crate) use self::vz_storage_attachments::*;
+pub(crate) use self::vz_storage_configurations::*;

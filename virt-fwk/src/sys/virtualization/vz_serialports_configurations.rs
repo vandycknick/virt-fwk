@@ -5,6 +5,7 @@ use objc2::{extern_class, extern_methods, ClassType};
 
 use crate::sys::virtualization::*;
 
+// region: VZSerialPortConfiguration
 extern_class!(
     #[derive(Debug, PartialEq, Eq, Hash)]
     pub struct VZSerialPortConfiguration;
@@ -34,3 +35,31 @@ extern_methods!(
         pub unsafe fn setAttachment(&self, attachment: Option<&VZSerialPortAttachment>);
     }
 );
+// endregion
+
+// region: VZVirtioConsoleDeviceSerialPortConfiguration
+extern_class!(
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub struct VZVirtioConsoleDeviceSerialPortConfiguration;
+
+    unsafe impl ClassType for VZVirtioConsoleDeviceSerialPortConfiguration {
+        #[inherits(NSObject)]
+        type Super = VZSerialPortConfiguration;
+    }
+);
+
+#[cfg(feature = "not_implemented_yet")]
+unsafe impl NSCopying for VZVirtioConsoleDeviceSerialPortConfiguration {}
+
+unsafe impl NSObjectProtocol for VZVirtioConsoleDeviceSerialPortConfiguration {}
+
+extern_methods!(
+    unsafe impl VZVirtioConsoleDeviceSerialPortConfiguration {
+        #[method_id(new)]
+        pub fn new() -> Id<Self, Shared>;
+
+        #[method_id(@__retain_semantics Init init)]
+        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self, Shared>;
+    }
+);
+// endregion

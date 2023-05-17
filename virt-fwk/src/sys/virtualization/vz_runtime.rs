@@ -6,7 +6,9 @@ use objc2::ffi::NSInteger;
 use objc2::rc::Owned;
 use objc2::rc::{Allocated, Id, Shared};
 use objc2::runtime::{NSObject, NSObjectProtocol};
-use objc2::{extern_class, extern_methods, ClassType, ProtocolObject};
+use objc2::{
+    extern_class, extern_methods, extern_protocol, ClassType, ProtocolObject, ProtocolType,
+};
 
 use crate::sys::foundation::*;
 use crate::sys::queue::*;
@@ -152,3 +154,33 @@ extern_methods!(
 
 unsafe impl Send for VZVirtualMachine {}
 unsafe impl Sync for VZVirtualMachine {}
+
+extern_protocol!(
+    /// # Safety
+    ///
+    /// This delegate should never leak outside this crate.
+    pub(crate) unsafe trait VZVirtualMachineDelegate: NSObjectProtocol {
+        #[optional]
+        #[method(guestDidStopVirtualMachine:)]
+        unsafe fn guestDidStopVirtualMachine(&self, virtual_machine: &VZVirtualMachine);
+
+        #[optional]
+        #[method(virtualMachine:didStopWithError:)]
+        unsafe fn virtualMachine_didStopWithError(
+            &self,
+            virtual_machine: &VZVirtualMachine,
+            error: &NSError,
+        );
+
+        #[optional]
+        #[method(virtualMachine:networkDevice:attachmentWasDisconnectedWithError:)]
+        unsafe fn virtualMachine_networkDevice_attachmentWasDisconnectedWithError(
+            &self,
+            virtual_machine: &VZVirtualMachine,
+            network_device: &VZNetworkDevice,
+            error: &NSError,
+        );
+    }
+
+    unsafe impl ProtocolType for dyn VZVirtualMachineDelegate {}
+);
