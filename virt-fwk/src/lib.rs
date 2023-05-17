@@ -71,22 +71,24 @@
 //!
 //! If you want to use [`VZBridgedNetworkDeviceAttachment`](https://developer.apple.com/documentation/virtualization/vzbridgednetworkdeviceattachment?language=objc), you need to add also [`com.apple.vm.networking`](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_vm_networking) entitlement.
 
-mod boot_loader;
-mod entropy_device;
-mod memory_device;
-mod network_device;
+mod bootloader;
+mod configuration;
+mod memory;
+mod network;
+mod randomization;
 mod runtime;
 mod serial_port;
-mod storage_device;
+mod storage;
 mod sys;
 
-pub use crate::boot_loader::*;
-pub use crate::entropy_device::*;
-pub use crate::memory_device::*;
-pub use crate::network_device::*;
+pub use crate::bootloader::*;
+pub use crate::configuration::*;
+pub use crate::memory::*;
+pub use crate::network::*;
+pub use crate::randomization::*;
 pub use crate::runtime::*;
 pub use crate::serial_port::*;
-pub use crate::storage_device::*;
+pub use crate::storage::*;
 
 pub(crate) mod sealed {
     use objc2::rc::Id;
