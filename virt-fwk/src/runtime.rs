@@ -8,8 +8,8 @@ use objc2::ClassType;
 use objc2::{declare_class, msg_send_id};
 
 use crate::sealed::UnsafeGetId;
-use crate::sys::foundation::{NSError, NSString};
-use crate::sys::virtualization::{NSKeyValueObservingOptions, VZVirtualMachine};
+use crate::sys::foundation::{NSError, NSKeyValueObservingOptions, NSString};
+use crate::sys::virtualization::VZVirtualMachine;
 
 use crate::configuration::VirtualMachineConfiguration;
 use crate::sys::queue::{Queue, QueueAttribute};

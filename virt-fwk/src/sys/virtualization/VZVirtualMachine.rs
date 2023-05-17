@@ -6,23 +6,11 @@ use objc2::ffi::NSInteger;
 use objc2::rc::Owned;
 use objc2::rc::{Allocated, Id, Shared};
 use objc2::runtime::{NSObject, NSObjectProtocol};
-use objc2::{extern_class, extern_methods, ClassType, Encode, ProtocolObject};
+use objc2::{extern_class, extern_methods, ClassType, ProtocolObject};
 
 use crate::sys::foundation::*;
 use crate::sys::queue::*;
 use crate::sys::virtualization::*;
-
-#[allow(dead_code)]
-pub enum NSKeyValueObservingOptions {
-    NSKeyValueObservingOptionNew = 0x01,
-    NSKeyValueObservingOptionOld = 0x02,
-    NSKeyValueObservingOptionInitial = 0x04,
-    NSKeyValueObservingOptionPrior = 0x08,
-}
-
-unsafe impl Encode for NSKeyValueObservingOptions {
-    const ENCODING: objc2::Encoding = objc2::Encoding::ULongLong;
-}
 
 extern_class!(
     #[derive(Debug, PartialEq, Eq, Hash)]

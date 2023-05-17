@@ -8,7 +8,7 @@ use std::str;
 use objc2::ffi::{NSInteger, NSUInteger};
 use objc2::rc::{autoreleasepool, Allocated, AutoreleasePool, Id, Ownership, Shared};
 use objc2::runtime::{NSObject, Object, __nsstring::nsstring_to_str};
-use objc2::{__inner_extern_class, extern_class, extern_methods, ClassType};
+use objc2::{__inner_extern_class, extern_class, extern_methods, ClassType, Encode};
 use objc2::{msg_send, Message};
 
 const UTF8_ENCODING: usize = 4;
@@ -210,3 +210,15 @@ extern_methods!(
         pub unsafe fn fileDescriptor(&self) -> c_int;
     }
 );
+
+#[allow(dead_code)]
+pub enum NSKeyValueObservingOptions {
+    NSKeyValueObservingOptionNew = 0x01,
+    NSKeyValueObservingOptionOld = 0x02,
+    NSKeyValueObservingOptionInitial = 0x04,
+    NSKeyValueObservingOptionPrior = 0x08,
+}
+
+unsafe impl Encode for NSKeyValueObservingOptions {
+    const ENCODING: objc2::Encoding = objc2::Encoding::ULongLong;
+}
