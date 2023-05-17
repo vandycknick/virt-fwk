@@ -24,6 +24,12 @@ impl VirtioEntropyDeviceConfiguration {
 
 impl EntropyDeviceConfiguration for VirtioEntropyDeviceConfiguration {}
 
+impl Default for VirtioEntropyDeviceConfiguration {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl UnsafeGetId<VZEntropyDeviceConfiguration> for VirtioEntropyDeviceConfiguration {
     fn id(&self) -> Id<VZEntropyDeviceConfiguration, Shared> {
         unsafe { Id::cast(self.inner.clone()) }

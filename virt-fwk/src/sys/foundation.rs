@@ -211,7 +211,7 @@ extern_methods!(
     }
 );
 
-#[allow(dead_code)]
+#[allow(dead_code, clippy::enum_variant_names)]
 pub enum NSKeyValueObservingOptions {
     NSKeyValueObservingOptionNew = 0x01,
     NSKeyValueObservingOptionOld = 0x02,

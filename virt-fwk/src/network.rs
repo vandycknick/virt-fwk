@@ -26,6 +26,12 @@ impl NATNetworkDeviceAttachment {
 
 impl NetworkDeviceAttachment for NATNetworkDeviceAttachment {}
 
+impl Default for NATNetworkDeviceAttachment {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl UnsafeGetId<VZNetworkDeviceAttachment> for NATNetworkDeviceAttachment {
     fn id(&self) -> Id<VZNetworkDeviceAttachment, Shared> {
         unsafe { Id::cast(self.inner.clone()) }
@@ -52,6 +58,12 @@ impl MACAddress {
                 inner: VZMACAddress::randomLocallyAdministeredAddress(),
             }
         }
+    }
+}
+
+impl Default for MACAddress {
+    fn default() -> Self {
+        Self::new()
     }
 }
 
@@ -101,6 +113,12 @@ impl VirtioNetworkDeviceConfiguration {
 }
 
 impl NetworkDeviceConfiguration for VirtioNetworkDeviceConfiguration {}
+
+impl Default for VirtioNetworkDeviceConfiguration {
+    fn default() -> Self {
+        Self::new()
+    }
+}
 
 impl UnsafeGetId<VZNetworkDeviceConfiguration> for VirtioNetworkDeviceConfiguration {
     fn id(&self) -> Id<VZNetworkDeviceConfiguration, Shared> {

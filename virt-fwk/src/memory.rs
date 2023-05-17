@@ -30,6 +30,12 @@ impl VirtioTraditionalMemoryBalloonDeviceConfiguration {
 
 impl MemoryBalloonDeviceConfiguration for VirtioTraditionalMemoryBalloonDeviceConfiguration {}
 
+impl Default for VirtioTraditionalMemoryBalloonDeviceConfiguration {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl UnsafeGetId<VZMemoryBalloonDeviceConfiguration>
     for VirtioTraditionalMemoryBalloonDeviceConfiguration
 {

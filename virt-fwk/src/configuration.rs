@@ -26,12 +26,6 @@ pub struct VirtualMachineConfiguration {
 /// This configuration object contains information about the VM environment, including the devices that the VM exposes to the guest operating system.
 /// For example, use the configuration object to specify the network interfaces and storage devices that the operating system may access.
 impl VirtualMachineConfiguration {
-    pub fn default() -> Self {
-        VirtualMachineConfiguration {
-            inner: VZVirtualMachineConfiguration::new(),
-        }
-    }
-
     pub fn new<T: BootLoader>(boot_loader: T, cpus: usize, memory: u64) -> Self {
         let config = Self::default();
         config.set_boot_loader(boot_loader);
@@ -119,6 +113,14 @@ impl VirtualMachineConfiguration {
                 Ok(_) => Ok(()),
                 Err(ns_error) => Err(ns_error.localized_description()),
             }
+        }
+    }
+}
+
+impl Default for VirtualMachineConfiguration {
+    fn default() -> Self {
+        VirtualMachineConfiguration {
+            inner: VZVirtualMachineConfiguration::new(),
         }
     }
 }

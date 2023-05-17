@@ -67,6 +67,12 @@ impl VirtioConsoleDeviceSerialPortConfiguration {
     }
 }
 
+impl Default for VirtioConsoleDeviceSerialPortConfiguration {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl SerialPortConfiguration for VirtioConsoleDeviceSerialPortConfiguration {
     fn set_attachment<T: SerialPortAttachment>(&self, attachment: T) {
         unsafe {

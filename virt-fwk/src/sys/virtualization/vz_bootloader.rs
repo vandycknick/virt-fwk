@@ -4,7 +4,6 @@ use objc2::runtime::{NSObject, NSObjectProtocol};
 use objc2::{extern_class, extern_methods, ClassType};
 
 use crate::sys::foundation::*;
-use crate::sys::virtualization::*;
 
 extern_class!(
     #[derive(Debug, PartialEq, Eq, Hash)]

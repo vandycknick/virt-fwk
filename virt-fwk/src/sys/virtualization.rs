@@ -1,9 +1,6 @@
 #[link(name = "Virtualization", kind = "framework")]
 extern "C" {}
 
-// #[path = "virtualization/mod.rs"]
-// mod virtualization;
-
 mod vz_bootloader;
 mod vz_configuration;
 mod vz_memory_configuration;
@@ -21,7 +18,7 @@ mod vz_storage_configurations;
 pub(crate) use self::vz_bootloader::*;
 pub(crate) use self::vz_configuration::*;
 pub(crate) use self::vz_memory_configuration::*;
-pub(crate) use self::vz_memory_devices::*;
+// pub(crate) use self::vz_memory_devices::*;
 pub(crate) use self::vz_network_attachments::*;
 pub(crate) use self::vz_network_configuration::*;
 pub(crate) use self::vz_network_device::*;
